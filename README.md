@@ -8,8 +8,6 @@ CypherQL is a transformative web application designed to streamline the process 
 - [Technologies Used](#technologies-used)
 - [Installation](#installation)
 - [Usage](#usage)
-- [Folder Structure](#folder-structure)
-- [Contributing](#contributing)
 - [License](#license)
 
 ## Introduction
@@ -24,7 +22,6 @@ CypherQL is designed to simplify the conversion of SPARQL queries, commonly used
 ## Technologies Used
 - **Backend**: Java Spring Boot
 - **Frontend**: React.js
-- **Database**: (Specify the database if any, e.g., Neo4j, MySQL, etc.)
 - **Other Tools**: Maven, npm, etc.
 
 ## Installation
@@ -36,8 +33,8 @@ CypherQL is designed to simplify the conversion of SPARQL queries, commonly used
 ### Backend Setup
 1. Clone the repository:
     ```sh
-    git clone https://github.com/yourusername/CypherQL.git
-    cd CypherQL/backend
+    git clone https://github.com/amanullahmd12/cypherql.git
+    cd api
     ```
 2. Build the project using Maven:
     ```sh
@@ -59,35 +56,13 @@ CypherQL is designed to simplify the conversion of SPARQL queries, commonly used
     ```
 3. Start the React development server:
     ```sh
-    npm start
+    npm run dev
     ```
 
 ## Usage
 1. Open your web browser and navigate to `http://localhost:5173`.
 2. Enter your SPARQL query into the provided input field.
 3. Click the "Convert" button to get the corresponding Cypher query.
-
-## Folder Structure
-
-CypherQL/
-├── backend/
-│ ├── src/
-│ │ ├── main/
-│ │ │ ├── java/
-│ │ │ ├── resources/
-│ ├── pom.xml
-│ └── ... (other backend files)
-├── frontend/
-│ ├── public/
-│ ├── src/
-│ ├── package.json
-│ └── ... (other frontend files)
-├── queries/
-│ ├── query1.sparql
-│ ├── query2.sparql
-│ └── ... (other query files)
-├── README.md
-└── ... (other project files)
 
 
 ## Contributing
