@@ -4,7 +4,7 @@ function About() {
   return (
     <section className='' id='about'>
           <div className="container mt-5">
-          <h1 className="main">SparQL <i className="fa-solid fa-arrow-right"></i> Cypher</h1>
+          <h1 className="main">SparQL <i className="fa-solid fa-arrow-right"></i> Cypher </h1>
           <h6 className='message text-center'>Free yourself from tedious query conversions that hinder your progress. Let CypherQL handle SPARQL to Cypher transformations, so you and your team can focus on innovation and creation.</h6>
           <div className="about mt-5">
             <div className="row">

@@ -1,0 +1,11 @@
+.banner{
+    transform: rotate(-3deg);
+    padding: 50px;
+    
+}
+
+.banner-img{
+    border: 2px solid #04cf6686;
+    border-radius: 20px;
+  
+}

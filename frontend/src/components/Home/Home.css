@@ -3,16 +3,37 @@ a{
     color: #ffffff;
   }
   .main{
-    background: rgb(0,45,21);
+    /* background: rgb(0,45,21);
     background: linear-gradient(90deg, rgba(0,45,21,1) 0%, rgba(4,207,101,1) 28%, rgba(4,207,101,1) 79%, rgba(0,45,21,1) 100%);
   -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent; */
+  background: -webkit-linear-gradient(left,#43ff64d9,#00ff2fd9, #43ff64d9);
+  background-size: 1600px 200px;
+  -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
+  animation-duration: 10s;
+  animation-name: animationgradienttitle;
+  animation-iteration-count: infinite;
+  animation-fill-mode: forwards;
   width: 100%;
   font-size: 4rem;
   text-align: center;
   font-weight: bolder;
   }
   
+
+
+
+
+
+@keyframes animationgradienttitle {
+  0% {
+      background-position: 0 1600px;
+  }
+  100% {
+      background-position: 1600px 0;
+  }
+}
   hr{
     background-color: #04cf65;
     padding: 1px;

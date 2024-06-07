@@ -1,47 +1,65 @@
 package com.example.converter;
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
-import java.io.IOException;
-import java.util.Scanner;
-
 
 import com.example.converter.cypher.ParserFunction;
+import com.example.converter.service.Neo4jService;
+import org.neo4j.driver.AuthTokens;
+import org.neo4j.driver.Driver;
+import org.neo4j.driver.GraphDatabase;
+import org.neo4j.driver.Record;
+import org.neo4j.driver.Session;
+import org.neo4j.driver.Result;
+import org.neo4j.driver.Value;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @SpringBootApplication
 @RestController
 public class SparqlToCypherConverterApplication {
-	private static String inputQuery;
-	public static void main(String[] args) throws IOException{
 
+	@Autowired
+	private Neo4jService neo4jService;
+
+	public static void main(String[] args) throws IOException {
 		SpringApplication.run(SparqlToCypherConverterApplication.class, args);
-		Scanner scanner = new Scanner(System.in);
-		// Input the SPARQL query
-		System.out.println("Enter your SPARQL query (press Enter twice to finish):");
-		StringBuilder sparqlQueryBuilder = new StringBuilder();
-		String line;
-		while (!(line = scanner.nextLine()).isEmpty()) {
-			sparqlQueryBuilder.append(line).append("\n");
-		}
-		scanner.close();
-		inputQuery=sparqlQueryBuilder.toString();
-
-		//System.out.println(inputQuery);
-
-		ParserFunction pf=new ParserFunction();
-		String cypherQuery=pf.parseSparqlQuery(inputQuery);
-		//Output Cypher Query
-		System.out.println("Cypher Query:");
-		System.out.println(cypherQuery);
 	}
 
 	@PostMapping("/convert")
 	public String convertSparqlToCypher(@RequestBody String sparqlQuery) {
 		ParserFunction pf = new ParserFunction();
-		String cypherQuery = pf.parseSparqlQuery(sparqlQuery);
-		return cypherQuery;
+		return pf.parseSparqlQuery(sparqlQuery);
 	}
 
+	@PostMapping("/execute")
+	public String executeCypherQuery(@RequestBody String sparqlQuery) {
+		ParserFunction pf = new ParserFunction();
+		String cypherQuery = pf.parseSparqlQuery(sparqlQuery);
+
+		// Establishing Neo4j connection
+		try (Driver driver = GraphDatabase.driver("bolt://localhost:7687", AuthTokens.basic("neo4j", "password"));
+			 Session session = driver.session()) {
+
+			// Execute Cypher query
+			Result result = session.run(cypherQuery);
+
+			// Collect results
+			List<String> columns = result.keys();
+			StringBuilder sb = new StringBuilder(String.join("\t", columns)).append("\n");
+			while (result.hasNext()) {
+				Record record = result.next();
+				String row = columns.stream()
+						.map(column -> record.get(column).toString())
+						.collect(Collectors.joining("\t"));
+				sb.append(row).append("\n");
+			}
+			return sb.toString();
+		} catch (Exception e) {
+			return "Error executing Cypher query: " + e.getMessage();
+		}
+	}
 }
